@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebDynpro xmlns="http://www.sap.com/wd/webdynpro">
+  <View name="PurchaseOrderView">
+    <Title>Standard PO 4500017100 Created by ZECHA</Title>
+    <UIElements>
+      <Tray id="mainTray" width="100%">
+        <!-- Application Header Area (Topmost bar) -->
+        <FlowLayout id="appHeaderLayout" padding="medium">
+          <FlowLayoutData id="appHeaderFlowData" width="100%"/>
+          <ContainerLayout id="appHeaderContainer">
+            <FlowLayout id="appHeaderLeft">
+              <Button id="backBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/left_arrow_16.gif" tooltip="Back" design="Transparent" wrapping="false" />
+              <DropDownByIndex id="poTypeDropdown" selectedKey="STANDARD_PO" width="150px" enabled="true" onSelect="onActionSelectPOTyp">
+                <items>
+                  <CollectionElement key="STANDARD_PO" text="Standard PO"/>
+                  <!-- Other PO types could be here -->
+                </items>
+              </DropDownByIndex>
+              <InputField id="poNumberField" value="{/PurchaseOrderHeader/PONumber}" width="120px" enabled="false" tooltip="Purchase Order Number"/>
+              <Label id="vendorLabel" text="Vendor" labelFor="vendorField"/>
+              <InputField id="vendorField" value="{/PurchaseOrderHeader/VendorName}" width="200px" enabled="false" tooltip="Vendor Name"/>
+              <Label id="docDateLabel" text="Doc. date" labelFor="docDateField"/>
+              <InputField id="docDateField" value="{/PurchaseOrderHeader/DocumentDate}" width="90px" enabled="false" tooltip="Document Date"/>
+            </FlowLayout>
+            <FlowLayout id="appHeaderRight">
+              <Button id="searchBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/search_16.gif" tooltip="Search" design="Transparent" wrapping="false" onAction="onActionSearch"/>
+              <Button id="settingsBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/settings_16.gif" tooltip="Settings" design="Transparent" wrapping="false" />
+              <Button id="exitBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/exit_16.gif" text="Exit" design="Transparent" wrapping="false" onAction="onActionExit"/>
+            </FlowLayout>
+          </ContainerLayout>
+        </FlowLayout>
+
+        <!-- Main Content Toolbar (Below topmost bar) -->
+        <FlowLayout id="mainToolbarLayout" padding="medium">
+          <FlowLayoutData id="mainToolbarFlowData" width="100%"/>
+          <ContainerLayout id="mainToolbarContainer">
+            <FlowLayout id="mainToolbarLeft">
+              <Button id="saveBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/save_16.gif" tooltip="Save" design="Transparent" wrapping="false" onAction="onActionSave"/>
+              <DropDownByIndex id="documentOverviewDropdown" selectedKey="ON" width="150px" enabled="true" onSelect="onActionDocumentOverview">
+                <items>
+                  <CollectionElement key="ON" text="Document Overview On"/>
+                  <CollectionElement key="OFF" text="Document Overview Off"/>
+                </items>
+              </DropDownByIndex>
+              <Button id="copyBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/copy_16.gif" tooltip="Copy" design="Transparent" wrapping="false" />
+              <Button id="createBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/create_16.gif" tooltip="Create" design="Transparent" wrapping="false" />
+              <Button id="printPreviewBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/print_preview_16.gif" text="Print Preview" design="Transparent" wrapping="false" onAction="onActionPrintPreview"/>
+              <Button id="messagesBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/messages_16.gif" text="Messages" design="Transparent" wrapping="false" onAction="onActionMessages"/>
+              <Button id="infoBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/information_16.gif" text="i" design="Transparent" wrapping="false" onAction="onActionInformation"/>
+              <Button id="personalSettingBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/user_settings_16.gif" text="Personal Setting" design="Transparent" wrapping="false" onAction="onActionPersonalSetting"/>
+              <Button id="cancelBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/cancel_16.gif" text="Cancel" design="Transparent" wrapping="false" onAction="onActionCancel"/>
+            </FlowLayout>
+          </ContainerLayout>
+        </FlowLayout>
+
+        <!-- PO Header Tabs -->
+        <TabStrip id="poHeaderTabs" selectedTabKey="{/PurchaseOrderHeader/SelectedTab}" onSelect="onActionTabSelectHeader">
+          <Tab id="deliveryInvoiceTab" text="Delivery/Invoice" key="DELIVERY_INVOICE"/>
+          <Tab id="conditionsTab" text="Conditions" key="CONDITIONS"/>
+          <Tab id="textsTab" text="Texts" key="TEXTS"/>
+          <Tab id="addressTab" text="Address" key="ADDRESS"/>
+          <Tab id="communicationTab" text="Communication" key="COMMUNICATION"/>
+          <Tab id="partnersTab" text="Partners" key="PARTNERS"/>
+          <Tab id="additionalDataTab" text="Additional Data" key="ADDITIONAL_DATA"/>
+          <Tab id="orgDataTab" text="Org. Data" key="ORG_DATA">
+            <FormContainer id="orgDataForm">
+              <FormElement id="purchasingOrgElement" labelText="Purchasing Org.">
+                <InputField id="purchasingOrgId" value="{/PurchaseOrderHeader/PurchasingOrgID}" width="50px" enabled="true"/>
+                <TextView id="purchasingOrgName" text="{/PurchaseOrderHeader/PurchasingOrgName}" design="Standard" semanticColor="Neutral" wrapping="false"/>
+              </FormElement>
+              <FormElement id="purchasingGroupElement" labelText="Purch. Group">
+                <InputField id="purchasingGroupId" value="{/PurchaseOrderHeader/PurchasingGroupID}" width="50px" enabled="true"/>
+                <TextView id="purchasingGroupName" text="{/PurchaseOrderHeader/PurchasingGroupName}" design="Standard" semanticColor="Neutral" wrapping="false"/>
+              </FormElement>
+              <FormElement id="companyCodeElement" labelText="Company Code">
+                <InputField id="companyCodeId" value="{/PurchaseOrderHeader/CompanyCodeID}" width="50px" enabled="true"/>
+                <TextView id="companyCodeName" text="{/PurchaseOrderHeader/CompanyCodeName}" design="Standard" semanticColor="Neutral" wrapping="false"/>
+              </FormElement>
+            </FormContainer>
+          </Tab>
+          <Tab id="statusTab" text="Status" key="STATUS"/>
+        </TabStrip>
+
+        <!-- PO Item Table -->
+        <Table id="poItemTable" dataSource="{/PurchaseOrderItems}" visibleRowCount="4" width="100%">
+          <TablePopinToggleButton id="popinToggleButton"/>
+          <TableColumnMenu id="tableColumnMenu"/>
+          <Buttons>
+            <Button id="tableDisplayBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/search_16.gif" tooltip="Display Item Details" design="Transparent" wrapping="false" onAction="onActionDisplayItemDetails"/>
+            <Button id="tableLayoutBtn1" icon="~sap/public/bc/webdynpro/mimes/sap/public/table_layout_16.gif" tooltip="Layout Variant 1" design="Transparent" wrapping="false" onAction="onActionChangeLayout1"/>
+            <Button id="tableLayoutBtn2" icon="~sap/public/bc/webdynpro/mimes/sap/public/layout_16.gif" tooltip="Layout Variant 2" design="Transparent" wrapping="false" onAction="onActionChangeLayout2"/>
+            <Button id="tableDeleteItemBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/delete_16.gif" tooltip="Delete Item" design="Transparent" wrapping="false" onAction="onActionDeleteItem"/>
+            <Button id="tableLockItemBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/lock_16.gif" tooltip="Lock Item" design="Transparent" wrapping="false" onAction="onActionLockItem"/>
+            <Button id="tableUnlockItemBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/unlock_16.gif" tooltip="Unlock Item" design="Transparent" wrapping="false" onAction="onActionUnlockItem"/>
+            <Button id="tableItemDetailsBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/item_details_16.gif" tooltip="Item Details" design="Transparent" wrapping="false" onAction="onActionItemDetails"/>
+            <Button id="tableFilterBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/filter_16.gif" tooltip="Filter" design="Transparent" wrapping="false" onAction="onActionFilter"/>
+            <Button id="tableSettingsBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/settings_16.gif" tooltip="Settings" design="Transparent" wrapping="false" onAction="onActionTableSettings"/>
+            <Button id="addlPlanningBtn" text="Addl Planning" design="Standard" wrapping="false" onAction="onActionAddlPlanning"/>
+          </Buttons>
+          <Columns>
+            <Column id="selectColumn" headerText="S.">
+              <CheckBox id="selectItemCheckbox" checked="{S_Selected}"/>
+            </Column>
+            <Column id="itemColumn" headerText="Itm" width="40px">
+              <TextView id="itemNumberText" text="{ItemNumber}"/>
+            </Column>
+            <Column id="aColumn" headerText="A">
+              <CheckBox id="aCheckbox" checked="{A_Selected}"/>
+            </Column>
+            <Column id="iColumn" headerText="I">
+              <CheckBox id="iCheckbox" checked="{I_Selected}"/>
+            </Column>
+            <Column id="materialColumn" headerText="Material">
+              <Link id="materialLink" text="{MaterialNumber}" design="Standard" semanticColor="Standard" onAction="onActionShowMaterialDetails"/>
+            </Column>
+            <Column id="shortTextColumn" headerText="Short Text">
+              <TextView id="shortText" text="{ShortText}"/>
+            </Column>
+            <Column id="poQuantityColumn" headerText="PO Quantity" hAlign="Right">
+              <TextView id="poQuantity" text="{POQuantity}"/>
+            </Column>
+            <Column id="oColumn" headerText="O.">
+              <TextView id="quantityUnit" text="{QuantityUnit}"/>
+            </Column>
+            <Column id="cColumn" headerText="C">
+              <TextView id="category" text="{Category}"/>
+            </Column>
+            <Column id="delivDateColumn" headerText="Deliv. Date" hAlign="Right">
+              <TextView id="deliveryDate" text="{DeliveryDate}"/>
+            </Column>
+            <Column id="netPriceColumn" headerText="Net Price" hAlign="Right">
+              <TextView id="netPrice" text="{NetPrice}"/>
+            </Column>
+            <Column id="currencyColumn" headerText="Curr.">
+              <TextView id="currency" text="{Currency}"/>
+            </Column>
+            <Column id="perColumn" headerText="Per" hAlign="Right">
+              <TextView id="perUnit" text="{PerUnit}"/>
+            </Column>
+            <Column id="fColumn" headerText="F">
+              <CheckBox id="fCheckbox" checked="{F_Selected}"/>
+            </Column>
+            <Column id="o2Column" headerText="O.">
+              <CheckBox id="o2Checkbox" checked="{O_Selected}"/>
+            </Column>
+            <Column id="matlGroupColumn" headerText="Matl Group">
+              <TextView id="materialGroup" text="{MaterialGroup}"/>
+            </Column>
+            <Column id="plntColumn" headerText="Plnt">
+              <TextView id="plant" text="{Plant}"/>
+            </Column>
+            <Column id="storLocationColumn" headerText="Stor. Location">
+              <TextView id="storageLocation" text="{StorageLocation}"/>
+            </Column>
+            <Column id="colSettingsColumn" headerText="B">
+              <Button id="columnSettingsBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/settings_16.gif" tooltip="Column Settings" design="Transparent" wrapping="false" />
+            </Column>
+          </Columns>
+        </Table>
+
+        <!-- Item Details Section Header -->
+        <FlowLayout id="itemDetailsHeaderLayout" padding="medium">
+          <FlowLayoutData id="itemDetailsHeaderFlowData" width="100%"/>
+          <ContainerLayout id="itemDetailsHeaderContainer">
+            <FlowLayout id="itemDetailsHeaderLeft">
+              <Label id="itemDetailLabel" text="Item" labelFor="itemDetailDropdown"/>
+              <DropDownByIndex id="itemDetailDropdown" selectedKey="{/SelectedPOItem/Key}" width="300px" enabled="true" onSelect="onActionSelectPOItem">
+                <items>
+                  <CollectionElement key="10" text="[10] NGL-PHARM-1R , Kontrastmittel Ultravist 300"/>
+                  <!-- Other items would be here -->
+                </items>
+              </DropDownByIndex>
+            </FlowLayout>
+            <FlowLayout id="itemDetailsHeaderRight">
+              <Button id="itemUpBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/up_16.gif" tooltip="Previous Item" design="Transparent" wrapping="false" onAction="onActionNavigateItemUp"/>
+              <Button id="itemDownBtn" icon="~sap/public/bc/webdynpro/mimes/sap/public/down_16.gif" tooltip="Next Item" design="Transparent" wrapping="false" onAction="onActionNavigateItemDown"/>
+            </FlowLayout>
+          </ContainerLayout>
+        </FlowLayout>
+
+        <!-- Item Details Tabs -->
+        <TabStrip id="poItemTabs" selectedTabKey="{/PurchaseOrderItem/SelectedTab}" onSelect="onActionTabSelectItem">
+          <Tab id="materialDataTab" text="Material Data" key="MATERIAL_DATA"/>
+          <Tab id="quantitiesWeightsTab" text="Quantities/Weights" key="QUANTITIES_WEIGHTS"/>
+          <Tab id="deliveryScheduleTab" text="Delivery Schedule" key="DELIVERY_SCHEDULE"/>
+          <Tab id="deliveryTab" text="Delivery" key="DELIVERY"/>
+          <Tab id="invoiceTab" text="Invoice" key="INVOICE">
+            <FormContainer id="invoiceDetailsForm">
+              <FormElement id="invReceiptElement">
+                <CheckBox id="invReceiptCheckbox" text="Inv. Receipt" checked="{/PurchaseOrderItem/InvReceiptSelected}" onToggle="onActionToggleInvReceipt"/>
+              </FormElement>
+              <FormElement id="finalInvoiceElement">
+                <CheckBox id="finalInvoiceCheckbox" text="Final Invoice" checked="{/PurchaseOrderItem/FinalInvoiceSelected}" onToggle="onActionToggleFinalInvoice"/>
+              </FormElement>
+              <FormElement id="grBsdIvElement">
+                <CheckBox id="grBsdIvCheckbox" text="GR-Bsd IV" checked="{/PurchaseOrderItem/GRBsdIVSelected}" onToggle="onActionToggleGRBsdIV"/>
+              </FormElement>
+              <FormElement id="ersElement">
+                <CheckBox id="ersCheckbox" text="ERS" checked="{/PurchaseOrderItem/ERSSelected}" onToggle="onActionToggleERS"/>
+              </FormElement>
+              <FormElement id="taxCodeElement" labelText="Tax code">
+                <InputField id="taxCodeField" value="{/PurchaseOrderItem/TaxCode}" width="50px" enabled="false" tooltip="Tax Code"/>
+                <Button id="taxesBtn" text="Taxes" design="Standard" wrapping="false" onAction="onActionShowTaxes"/>
+              </FormElement>
+            </FormContainer>
+          </Tab>
+          <Tab id="itemConditionsTab" text="Conditions" key="ITEM_CONDITIONS"/>
+          <Tab id="purchaseOrderHistoryTab" text="Purchase Order History" key="PO_HISTORY"/>
+          <Tab id="itemTextsTab" text="Texts" key="ITEM_TEXTS"/>
+          <Tab id="deliveryAddressTab" text="Delivery Address" key="DELIVERY_ADDRESS"/>
+          <Tab id="confirmationsTab" text="Confirmations" key="CONFIRMATIONS"/>
+        </TabStrip>
+
+        <!-- Footer Message Area -->
+        <MessageArea id="messageArea" text=" " width="100%" />
+      </Tray>
+    </UIElements>
+  </View>
+  <Controller name="PurchaseOrderViewController">
+    <Methods>
+      <Method name="onActionSave" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionDocumentOverview" type="eventhandler">
+        <Parameters>
+          <Parameter name="key" type="string"/>
+        </Parameters>
+      </Method>
+      <Method name="onActionPrintPreview" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionMessages" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionInformation" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionPersonalSetting" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionCancel" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionExit" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionSearch" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionSelectPOTyp" type="eventhandler">
+        <Parameters>
+          <Parameter name="key" type="string"/>
+        </Parameters>
+      </Method>
+      <Method name="onActionTabSelectHeader" type="eventhandler">
+        <Parameters>
+          <Parameter name="key" type="string"/>
+        </Parameters>
+      </Method>
+      <Method name="onActionDisplayItemDetails" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionChangeLayout1" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionChangeLayout2" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionDeleteItem" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionLockItem" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionUnlockItem" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionItemDetails" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionFilter" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionTableSettings" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionAddlPlanning" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionShowMaterialDetails" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionSelectPOItem" type="eventhandler">
+        <Parameters>
+          <Parameter name="key" type="string"/>
+        </Parameters>
+      </Method>
+      <Method name="onActionNavigateItemUp" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionNavigateItemDown" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionTabSelectItem" type="eventhandler">
+        <Parameters>
+          <Parameter name="key" type="string"/>
+        </Parameters>
+      </Method>
+      <Method name="onActionToggleInvReceipt" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionToggleFinalInvoice" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionToggleGRBsdIV" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionToggleERS" type="eventhandler">
+        <Parameters/>
+      </Method>
+      <Method name="onActionShowTaxes" type="eventhandler">
+        <Parameters/>
+      </Method>
+    </Methods>
+  </Controller>
+</WebDynpro>

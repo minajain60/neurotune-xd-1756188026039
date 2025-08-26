@@ -9,17 +9,42 @@ sap.ui.define([
   "sap/ui/core/UIComponent"
 ], function (Controller, JSONModel, MessageToast, MessageBox, MessagePopover, MessageItem, coreLibrary, UIComponent) {
   "use strict";
-  
+
   // Shortcut for sap.ui.core.MessageType
   var MessageType = coreLibrary.MessageType;
 
+  /**
+   * @name converted.purchaseorderview.controller.PurchaseOrderView
+   * @class Controller for the PurchaseOrderView.
+   * @extends sap.ui.core.mvc.Controller
+   */
   return Controller.extend("converted.purchaseorderview.controller.PurchaseOrderView", {
+    /**
+     * Called when the view is initialized.
+     * @public
+     */
     onInit: function () {
-      // Initialize models
-      var oModel = new JSONModel();
-      this.getView().setModel(oModel);
-      
-      // Initialize message model for MessageArea/MessagePopover
+      // 1. Load Purchase Order Header Data
+      var oPurchaseOrderHeaderModel = new JSONModel();
+      oPurchaseOrderHeaderModel.loadData("model/mockData/purchaseOrderHeaders.json");
+      this.getView().setModel(oPurchaseOrderHeaderModel, "purchaseOrderHeader");
+
+      // 2. Load Purchase Order Item Data
+      var oPurchaseOrderItemModel = new JSONModel();
+      oPurchaseOrderItemModel.loadData("model/mockData/purchaseOrderItems.json");
+      this.getView().setModel(oPurchaseOrderItemModel, "purchaseOrderItems");
+
+      // 3. Load Customer Data (Example)
+      var oCustomerModel = new JSONModel();
+      oCustomerModel.loadData("model/mockData/customers.json");
+      this.getView().setModel(oCustomerModel, "customers");
+
+      // 4. Load Product Data (Example)
+      var oProductModel = new JSONModel();
+      oProductModel.loadData("model/mockData/products.json");
+      this.getView().setModel(oProductModel, "products");
+
+      // 5. Initialize Message Model for MessageArea/MessagePopover
       var oMessageModel = new JSONModel({
         messages: [
           {
@@ -32,85 +57,288 @@ sap.ui.define([
         ]
       });
       this.getView().setModel(oMessageModel, "messages");
-      
-      // Converted from WebDynpro: 2025-08-26T06:00:31.147Z
+
+      // Log initialization complete
+      console.log("PurchaseOrderView controller initialized and mock data loaded.");
     },
-    
-    // Event handlers
-    onBeforeRendering: function() {
-      // Prepare data before rendering
-    },
-    
-    onAfterRendering: function() {
-      // Adjust UI after rendering
-    },
-    
-    // Enhanced event handlers for special WebDynpro elements
-    
+
     /**
-     * Handle value help request (for ValueHelp / F4 elements)
-     * @param {sap.ui.base.Event} oEvent The event object
+     * Event handler for the "Save" button press.
+     * @public
      */
-    handleValueHelp: function(oEvent) {
-      var oSource = oEvent.getSource();
-      
-      // Create value help dialog if it doesn't exist
-      if (!this._valueHelpDialog) {
-        this._valueHelpDialog = new SelectDialog({
-          title: "Select Value",
-          confirm: function(oEvent) {
-            var oSelectedItem = oEvent.getParameter("selectedItem");
-            if (oSelectedItem) {
-              oSource.setValue(oSelectedItem.getTitle());
-            }
+    onActionSave: function () {
+      MessageBox.information("Save button pressed.");
+    },
+
+    /**
+     * Event handler for the "Document Overview" dropdown select.
+     * @param {sap.ui.base.Event} oEvent The event object.
+     * @public
+     */
+    onActionDocumentOverview: function (oEvent) {
+      var sKey = oEvent.getParameter("selectedItem").getKey();
+      MessageToast.show("Document Overview: " + sKey);
+    },
+
+    /**
+     * Event handler for the "Print Preview" button press.
+     * @public
+     */
+    onActionPrintPreview: function () {
+      MessageBox.information("Print Preview button pressed.");
+    },
+
+    /**
+     * Event handler for the "Messages" button press.
+     * @public
+     */
+    onActionMessages: function () {
+      MessageBox.information("Messages button pressed.");
+    },
+
+    /**
+     * Event handler for the "Information" button press.
+     * @public
+     */
+    onActionInformation: function () {
+      MessageBox.information("Information button pressed.");
+    },
+
+    /**
+     * Event handler for the "Personal Setting" button press.
+     * @public
+     */
+    onActionPersonalSetting: function () {
+      MessageBox.information("Personal Setting button pressed.");
+    },
+
+    /**
+     * Event handler for the "Cancel" button press.
+     * @public
+     */
+    onActionCancel: function () {
+      MessageBox.confirm("Are you sure you want to cancel?", {
+        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+        onClose: function (sAction) {
+          if (sAction === MessageBox.Action.YES) {
+            MessageToast.show("Action Cancelled");
           }
-        });
-        
-        // Sample items - would be filled with actual data in a real app
-        var oDialogModel = new JSONModel({
-          items: [
-            { title: "Item 1", description: "Description 1" },
-            { title: "Item 2", description: "Description 2" },
-            { title: "Item 3", description: "Description 3" }
-          ]
-        });
-        
-        this._valueHelpDialog.setModel(oDialogModel);
-        this._valueHelpDialog.bindAggregation("items", {
-          path: "/items",
-          template: new StandardListItem({
-            title: "{title}",
-            description: "{description}"
-          })
-        });
-      }
-      
-      // Open the dialog
-      this._valueHelpDialog.open();
+        }
+      });
     },
-    
+
     /**
-     * Handle file download requests (for FileDownload elements)
+     * Event handler for the "Exit" button press.
+     * @public
+     */
+    onActionExit: function () {
+      MessageBox.confirm("Are you sure you want to exit?", {
+        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+        onClose: function (sAction) {
+          if (sAction === MessageBox.Action.YES) {
+            MessageToast.show("Application Exited");
+          }
+        }
+      });
+    },
+
+    /**
+     * Event handler for the "Search" button press.
+     * @public
+     */
+    onActionSearch: function () {
+      MessageBox.information("Search button pressed.");
+    },
+
+    /**
+     * Event handler for the "PO Type" dropdown select.
+     * @param {sap.ui.base.Event} oEvent The event object.
+     * @public
+     */
+    onActionSelectPOTyp: function (oEvent) {
+      var sKey = oEvent.getParameter("selectedItem").getKey();
+      MessageToast.show("Selected PO Type: " + sKey);
+    },
+
+    /**
+     * Event handler for the header tab select.
+     * @param {sap.ui.base.Event} oEvent The event object.
+     * @public
+     */
+    onActionTabSelectHeader: function (oEvent) {
+      var sKey = oEvent.getParameter("key");
+      MessageToast.show("Selected Header Tab: " + sKey);
+    },
+
+    /**
+     * Event handler for the "Display Item Details" button press.
+     * @public
+     */
+    onActionDisplayItemDetails: function () {
+      MessageBox.information("Display Item Details button pressed.");
+    },
+
+    /**
+     * Event handler for the "Change Layout 1" button press.
+     * @public
+     */
+    onActionChangeLayout1: function () {
+      MessageBox.information("Change Layout 1 button pressed.");
+    },
+
+    /**
+     * Event handler for the "Change Layout 2" button press.
+     * @public
+     */
+    onActionChangeLayout2: function () {
+      MessageBox.information("Change Layout 2 button pressed.");
+    },
+
+    /**
+     * Event handler for the "Delete Item" button press.
+     * @public
+     */
+    onActionDeleteItem: function () {
+      MessageBox.information("Delete Item button pressed.");
+    },
+
+    /**
+     * Event handler for the "Lock Item" button press.
+     * @public
+     */
+    onActionLockItem: function () {
+      MessageBox.information("Lock Item button pressed.");
+    },
+
+    /**
+     * Event handler for the "Unlock Item" button press.
+     * @public
+     */
+    onActionUnlockItem: function () {
+      MessageBox.information("Unlock Item button pressed.");
+    },
+
+    /**
+     * Event handler for the "Item Details" button press.
+     * @public
+     */
+    onActionItemDetails: function () {
+      MessageBox.information("Item Details button pressed.");
+    },
+
+    /**
+     * Event handler for the "Filter" button press.
+     * @public
+     */
+    onActionFilter: function () {
+      MessageBox.information("Filter button pressed.");
+    },
+
+    /**
+     * Event handler for the "Table Settings" button press.
+     * @public
+     */
+    onActionTableSettings: function () {
+      MessageBox.information("Table Settings button pressed.");
+    },
+
+    /**
+     * Event handler for the "Addl Planning" button press.
+     * @public
+     */
+    onActionAddlPlanning: function () {
+      MessageBox.information("Addl Planning button pressed.");
+    },
+
+    /**
+     * Event handler for the "Show Material Details" link press.
+     * @public
+     */
+    onActionShowMaterialDetails: function () {
+      MessageBox.information("Show Material Details link pressed.");
+    },
+
+    /**
+     * Event handler for the "PO Item" dropdown select.
+     * @param {sap.ui.base.Event} oEvent The event object.
+     * @public
+     */
+    onActionSelectPOItem: function (oEvent) {
+      var sKey = oEvent.getParameter("selectedItem").getKey();
+      MessageToast.show("Selected PO Item: " + sKey);
+    },
+
+    /**
+     * Event handler for the "Navigate Item Up" button press.
+     * @public
+     */
+    onActionNavigateItemUp: function () {
+      MessageBox.information("Navigate Item Up button pressed.");
+    },
+
+    /**
+     * Event handler for the "Navigate Item Down" button press.
+     * @public
+     */
+    onActionNavigateItemDown: function () {
+      MessageBox.information("Navigate Item Down button pressed.");
+    },
+
+    /**
+     * Event handler for the item tab select.
+     * @param {sap.ui.base.Event} oEvent The event object.
+     * @public
+     */
+    onActionTabSelectItem: function (oEvent) {
+      var sKey = oEvent.getParameter("key");
+      MessageToast.show("Selected Item Tab: " + sKey);
+    },
+
+    /**
+     * Event handler for the "Inv. Receipt" checkbox toggle.
+     * @public
+     */
+    onActionToggleInvReceipt: function () {
+      MessageToast.show("Inv. Receipt toggled.");
+    },
+
+    /**
+     * Event handler for the "Final Invoice" checkbox toggle.
+     * @public
+     */
+    onActionToggleFinalInvoice: function () {
+      MessageToast.show("Final Invoice toggled.");
+    },
+
+    /**
+     * Event handler for the "GR-Bsd IV" checkbox toggle.
+     * @public
+     */
+    onActionToggleGRBsdIV: function () {
+      MessageToast.show("GR-Bsd IV toggled.");
+    },
+
+    /**
+     * Event handler for the "ERS" checkbox toggle.
+     * @public
+     */
+    onActionToggleERS: function () {
+      MessageToast.show("ERS toggled.");
+    },
+
+    /**
+     * Event handler for the "Show Taxes" button press.
+     * @public
+     */
+    onActionShowTaxes: function () {
+      MessageBox.information("Show Taxes button pressed.");
+    },
+
+    /**
+     * Handle message popover press
      * @param {sap.ui.base.Event} oEvent The event object
      */
-    onFileDownload: function(oEvent) {
-      // In a real application, this would be connected to a backend service
-      // For now, we'll show a message
-      MessageToast.show("File download initiated");
-      
-      // Sample approach to download a file:
-      // var sUrl = "/api/downloadFile?id=123";
-      // var link = document.createElement("a");
-      // link.href = sUrl;
-      // link.download = "filename.pdf";
-      // link.click();
-    },
-    
-    /**
-     * Open message popover (for MessageArea elements)
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    handleMessagePopoverPress: function(oEvent) {
+    handleMessagePopoverPress: function (oEvent) {
       if (!this._messagePopover) {
         this._messagePopover = new MessagePopover({
           items: {
@@ -124,137 +352,11 @@ sap.ui.define([
             })
           }
         });
-        
+
         this.getView().byId("messagePopoverBtn").addDependent(this._messagePopover);
       }
-      
+
       this._messagePopover.toggle(oEvent.getSource());
-    },
-    
-    /**
-     * Handle navigation link press events
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    onNavigationLinkPress: function(oEvent) {
-      var oSource = oEvent.getSource();
-      var sHref = oSource.getHref();
-      
-      if (sHref) {
-        // If href is set, let the default behavior handle it
-        return;
-      }
-      
-      // Otherwise, handle the navigation programmatically
-      var sNavTarget = oSource.data("navTarget");
-      if (sNavTarget) {
-        MessageToast.show("Navigating to: " + sNavTarget);
-        // In a real application, this would navigate to the appropriate view or application
-        // using the router
-      }
-    },
-    
-    /**
-     * Handle office control rendering
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    onOfficeControlRendered: function(oEvent) {
-      // This would normally integrate with MS Office API or similar
-      // In a converted application, this would be replaced by a more appropriate solution
-      console.log("Office control container rendered");
-      
-      var oSource = oEvent.getSource();
-      var sDomRef = oSource.getDomRef();
-      if (sDomRef) {
-        sDomRef.innerHTML = '<div class="sapUiMediumMargin">' +
-          '<div class="sapUiMediumMarginBottom">' +
-          '<span class="sapUiIcon sapUiIconMirrorInRTL" style="font-family:SAP-icons;color:#0854a0;font-size:2.5rem">&#xe0ef;</span>' +
-          '</div>' +
-          '<div class="sapMText">' +
-          '<p>Office document integration would be configured here.</p>' +
-          '<p>In SAPUI5, this typically uses OData services with MS Graph API integration.</p>' +
-          '</div>' +
-          '</div>';
-      }
-    },
-    
-    /**
-     * Open dialog
-     * This is a generic handler for WebDynpro dialog elements
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    openDialog: function(oEvent) {
-      // Get the dialog ID from the source control
-      var oSource = oEvent.getSource();
-      var sDialogId = oSource.data("dialogId") || "confirmDialog";
-      
-      // Find the dialog in the view
-      var oDialog = this.getView().byId(sDialogId);
-      if (oDialog) {
-        oDialog.open();
-      } else {
-        MessageToast.show("Dialog with ID '" + sDialogId + "' not found");
-      }
-    },
-    
-    /**
-     * Close dialog
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    closeDialog: function(oEvent) {
-      var oDialog = oEvent.getSource().getParent();
-      oDialog.close();
-    },
-    
-    /**
-     * Handle dialog confirm button press
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    onDialogConfirm: function(oEvent) {
-      // Handle dialog confirmation logic
-      MessageToast.show("Dialog confirmed");
-      this.closeDialog(oEvent);
-    },
-    
-    /**
-     * Handle dialog cancel button press
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    onDialogCancel: function(oEvent) {
-      // Handle dialog cancellation
-      this.closeDialog(oEvent);
-    },
-    
-    /**
-     * Navigate to SecondView
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    onNextPress: function(oEvent) {
-      // Get the router instance
-      var oRouter = UIComponent.getRouterFor(this);
-      
-      // Navigate to the 'second' route
-      oRouter.navTo("second");
-    },
-    
-    /**
-     * Navigate back to main view
-     * @param {sap.ui.base.Event} oEvent The event object
-     */
-    onBackPress: function(oEvent) {
-      // Get the router instance
-      var oRouter = UIComponent.getRouterFor(this);
-      
-      // Navigate to the 'main' route
-      oRouter.navTo("main");
-    },
-    
-    /**
-     * Navigate to a specific route
-     * @param {string} sRoute The route name to navigate to
-     */
-    navTo: function(sRoute) {
-      var oRouter = UIComponent.getRouterFor(this);
-      oRouter.navTo(sRoute);
     }
   });
 });

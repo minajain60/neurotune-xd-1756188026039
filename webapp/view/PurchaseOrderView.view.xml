@@ -7,7 +7,8 @@
   xmlns:richtexteditor="sap.ui.richtexteditor"
   xmlns:viz="sap.viz.ui5"
   controllerName="preview.app.controller.PurchaseOrderView"
-  displayBlock="true">
+  displayBlock="true"
+          xmlns:commons="sap.ui.commons">
   <Page title="PurchaseOrderView" enableScrolling="true">
     <content>
       <Title id="title_ttffrsg6" text="Standard PO 4500017100 Created by ZECHA"/>
