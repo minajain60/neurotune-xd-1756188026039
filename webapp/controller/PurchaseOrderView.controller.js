@@ -28,22 +28,22 @@ sap.ui.define([
      * @public
      */
     onInit: function () {
-      // 1. Load Purchase Order Header Data
+      // Load Purchase Order Header Data
       var oPurchaseOrderHeaderModel = new JSONModel();
       oPurchaseOrderHeaderModel.loadData("model/mockData/purchaseOrderHeaders.json");
       this.getView().setModel(oPurchaseOrderHeaderModel, "purchaseOrderHeader");
 
-      // 2. Load Purchase Order Item Data
+      // Load Purchase Order Item Data
       var oPurchaseOrderItemModel = new JSONModel();
       oPurchaseOrderItemModel.loadData("model/mockData/purchaseOrderItems.json");
       this.getView().setModel(oPurchaseOrderItemModel, "purchaseOrderItems");
 
-      // 3. Load Customer Data (Example)
+      // Load Customer Data (Example)
       var oCustomerModel = new JSONModel();
       oCustomerModel.loadData("model/mockData/customers.json");
       this.getView().setModel(oCustomerModel, "customers");
 
-      // 4. Load Product Data (Example)
+      // Load Product Data (Example)
       var oProductModel = new JSONModel();
       oProductModel.loadData("model/mockData/products.json");
       this.getView().setModel(oProductModel, "products");

@@ -1,18 +1,299 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mvc:View xmlns:mvc="sap.ui.core.mvc"
+<mvc:View
+  controllerName="converted.purchaseorderview.controller.PurchaseOrderView"
+  xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:layout="sap.ui.layout"
   xmlns:form="sap.ui.layout.form"
   xmlns:core="sap.ui.core"
-  xmlns:richtexteditor="sap.ui.richtexteditor"
-  xmlns:viz="sap.viz.ui5"
-  controllerName="preview.app.controller.PurchaseOrderView"
   displayBlock="true"
           xmlns:commons="sap.ui.commons">
-  <Page title="PurchaseOrderView" enableScrolling="true">
+  <Page
+    title="Standard PO {purchaseOrderHeader>/PurchaseOrderHeader/PONumber} Created by ZECHA"
+    enableScrolling="true">
     <content>
-      <Title id="title_ttffrsg6" text="Standard PO 4500017100 Created by ZECHA"/>
-      <Text id="uielements_wru0rz77"/>
+      <!-- General Information Section -->
+      <layout:HorizontalLayout>
+        <layout:content>
+          <form:SimpleForm
+            editable="false"
+            layout="ResponsiveGridLayout"
+            title="General Information"
+            labelSpanXL="3"
+            labelSpanL="3"
+            labelSpanM="3"
+            labelSpanS="12"
+            adjustLabelSpan="false"
+            emptySpanXL="4"
+            emptySpanL="4"
+            emptySpanM="4"
+            emptySpanS="0"
+            columnsXL="1"
+            columnsL="1"
+            columnsM="1"
+            singleContainerFullSize="false">
+            <form:content>
+              <Label text="Vendor"/>
+              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/VendorName}" editable="false"/>
+
+              <Label text="Doc. date"/>
+              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/DocumentDate}" editable="false"/>
+
+              <Label text="Purchasing Org."/>
+              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/PurchasingOrgID}" editable="true"/>
+
+              <Label text="Purch. Group"/>
+              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/PurchasingGroupID}" editable="true"/>
+
+              <Label text="Company Code"/>
+              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/CompanyCodeID}" editable="true"/>
+            </form:content>
+          </form:SimpleForm>
+        </layout:content>
+      </layout:HorizontalLayout>
+
+      <!-- Tab Strip -->
+      <IconTabBar
+        id="iconTabBar"
+        expandable="false"
+        expanded="true"
+        class="sapUiResponsiveContentPadding">
+        <items>
+          <IconTabFilter
+            id="deliveryInvoiceTab"
+            text="Delivery/Invoice"
+            key="DELIVERY_INVOICE"/>
+          <IconTabFilter
+            id="conditionsTab"
+            text="Conditions"
+            key="CONDITIONS"/>
+          <IconTabFilter
+            id="textsTab"
+            text="Texts"
+            key="TEXTS"/>
+          <IconTabFilter
+            id="addressTab"
+            text="Address"
+            key="ADDRESS"/>
+          <IconTabFilter
+            id="communicationTab"
+            text="Communication"
+            key="COMMUNICATION"/>
+          <IconTabFilter
+            id="partnersTab"
+            text="Partners"
+            key="PARTNERS"/>
+          <IconTabFilter
+            id="additionalDataTab"
+            text="Additional Data"
+            key="ADDITIONAL_DATA"/>
+          <IconTabFilter
+            id="orgDataTab"
+            text="Org. Data"
+            key="ORG_DATA">
+            <content>
+              <form:SimpleForm
+                editable="true"
+                layout="ResponsiveGridLayout"
+                title="Organization Data"
+                labelSpanXL="4"
+                labelSpanL="4"
+                labelSpanM="4"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="0"
+                emptySpanL="0"
+                emptySpanM="0"
+                emptySpanS="0"
+                columnsXL="2"
+                columnsL="2"
+                columnsM="2"
+                singleContainerFullSize="false">
+                <form:content>
+                  <Label text="Purchasing Org."/>
+                  <Input
+                    value="{purchaseOrderHeader>/PurchaseOrderHeader/PurchasingOrgID}"
+                    editable="true"/>
+
+                  <Label text="Purch. Group"/>
+                  <Input
+                    value="{purchaseOrderHeader>/PurchaseOrderHeader/PurchasingGroupID}"
+                    editable="true"/>
+
+                  <Label text="Company Code"/>
+                  <Input
+                    value="{purchaseOrderHeader>/PurchaseOrderHeader/CompanyCodeID}"
+                    editable="true"/>
+                </form:content>
+              </form:SimpleForm>
+            </content>
+          </IconTabFilter>
+          <IconTabFilter
+            id="statusTab"
+            text="Status"
+            key="STATUS"/>
+        </items>
+      </IconTabBar>
+
+      <!-- Line Item Table -->
+      <Table
+        id="poItemTable"
+        items="{purchaseOrderItems>/PurchaseOrderItems}"
+        width="auto"
+        growing="true"
+        growingThreshold="20">
+        <headerToolbar>
+          <Toolbar>
+            <Title id="tableTitle" text="Purchase Order Items"/>
+            <ToolbarSpacer/>
+            <SearchField
+              id="searchField"
+              width="auto"
+              placeholder="Search"
+              search="onSearch"/>
+            <Button
+              icon="sap-icon://excel-attachment"
+              press="onExportToExcel"
+              tooltip="Export to Excel"/>
+            <Button
+              icon="sap-icon://download"
+              press="onExportToCSV"
+              tooltip="Export to CSV"/>
+          </Toolbar>
+        </headerToolbar>
+        <columns>
+          <Column width="4rem">
+            <Text text="Item"/>
+          </Column>
+          <Column>
+            <Text text="Material"/>
+          </Column>
+          <Column>
+            <Text text="Short Text"/>
+          </Column>
+          <Column>
+            <Text text="PO Quantity"/>
+          </Column>
+          <Column>
+            <Text text="Deliv. Date"/>
+          </Column>
+          <Column>
+            <Text text="Net Price"/>
+          </Column>
+          <Column>
+            <Text text="Curr."/>
+          </Column>
+          <Column>
+            <Text text="Plant"/>
+          </Column>
+          <Column>
+            <Text text="Stor. Location"/>
+          </Column>
+          <Column>
+            <Text text="Matl Group"/>
+          </Column>
+        </columns>
+        <items>
+          <ColumnListItem>
+            <cells>
+              <Text text="{purchaseOrderItems>ItemNumber}"/>
+              <Text text="{purchaseOrderItems>MaterialNumber}"/>
+              <Text text="{purchaseOrderItems>ShortText}"/>
+              <Text text="{purchaseOrderItems>POQuantity}"/>
+              <Text text="{purchaseOrderItems>DeliveryDate}"/>
+              <Text text="{purchaseOrderItems>NetPrice}"/>
+              <Text text="{purchaseOrderItems>Currency}"/>
+              <Text text="{purchaseOrderItems>Plant}"/>
+              <Text text="{purchaseOrderItems>StorageLocation}"/>
+              <Text text="{purchaseOrderItems>MaterialGroup}"/>
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+
+      <!-- Item Detail Section -->
+      <Panel headerText="Item Detail">
+        <content>
+          <IconTabBar
+            id="itemIconTabBar"
+            expandable="false"
+            expanded="true"
+            class="sapUiResponsiveContentPadding">
+            <items>
+              <IconTabFilter
+                id="materialDataTab"
+                text="Material Data"
+                key="MATERIAL_DATA"/>
+              <IconTabFilter
+                id="quantitiesWeightsTab"
+                text="Quantities/Weights"
+                key="QUANTITIES_WEIGHTS"/>
+              <IconTabFilter
+                id="deliveryScheduleTab"
+                text="Delivery Schedule"
+                key="DELIVERY_SCHEDULE"/>
+              <IconTabFilter
+                id="deliveryTab"
+                text="Delivery"
+                key="DELIVERY"/>
+              <IconTabFilter
+                id="invoiceTab"
+                text="Invoice"
+                key="INVOICE">
+                <content>
+                  <form:SimpleForm
+                    editable="true"
+                    layout="ResponsiveGridLayout"
+                    title="Invoice Details"
+                    labelSpanXL="4"
+                    labelSpanL="4"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="0"
+                    emptySpanL="0"
+                    emptySpanM="0"
+                    emptySpanS="0"
+                    columnsXL="2"
+                    columnsL="2"
+                    columnsM="2"
+                    singleContainerFullSize="false">
+                    <form:content>
+                      <CheckBox text="Inv. Receipt"/>
+                      <CheckBox text="Final Invoice"/>
+                      <CheckBox text="GR-Bsd IV"/>
+                      <CheckBox text="ERS"/>
+
+                      <Label text="Tax code"/>
+                      <Input value=""/>
+                      <Button text="Taxes"/>
+                    </form:content>
+                  </form:SimpleForm>
+                </content>
+              </IconTabFilter>
+              <IconTabFilter
+                id="itemConditionsTab"
+                text="Conditions"
+                key="ITEM_CONDITIONS"/>
+              <IconTabFilter
+                id="purchaseOrderHistoryTab"
+                text="Purchase Order History"
+                key="PO_HISTORY"/>
+              <IconTabFilter
+                id="itemTextsTab"
+                text="Texts"
+                key="ITEM_TEXTS"/>
+              <IconTabFilter
+                id="deliveryAddressTab"
+                text="Delivery Address"
+                key="DELIVERY_ADDRESS"/>
+              <IconTabFilter
+                id="confirmationsTab"
+                text="Confirmations"
+                key="CONFIRMATIONS"/>
+            </items>
+          </IconTabBar>
+        </content>
+      </Panel>
     </content>
   </Page>
 </mvc:View>
