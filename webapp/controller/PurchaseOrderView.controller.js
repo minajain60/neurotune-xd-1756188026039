@@ -28,6 +28,12 @@ sap.ui.define([
      * @public
      */
     onInit: function () {
+
+      // Load Mock Data
+      var oMockModel = new JSONModel();
+      oMockModel.loadData("model/mockData.json");
+      this.getView().setModel(oMockModel);
+
       // Load Purchase Order Header Data
       var oPurchaseOrderHeaderModel = new JSONModel();
       oPurchaseOrderHeaderModel.loadData("model/mockData/purchaseOrderHeaders.json");
@@ -47,106 +53,6 @@ sap.ui.define([
       var oProductModel = new JSONModel();
       oProductModel.loadData("model/mockData/products.json");
       this.getView().setModel(oProductModel, "products");
-
-      // Load Delivery/Invoice Data for the Delivery/Invoice Tab
-      var oDeliveryInvoiceModel = new JSONModel();
-      oDeliveryInvoiceModel.loadData("model/mockData/deliveryInvoice.json");
-      this.getView().setModel(oDeliveryInvoiceModel, "deliveryInvoice");
-
-      // Load Conditions Data for the Conditions Tab
-      var oConditionsModel = new JSONModel();
-      oConditionsModel.loadData("model/mockData/conditions.json");
-      this.getView().setModel(oConditionsModel, "conditions");
-
-      // Load Texts Data for the Texts Tab
-      var oTextsModel = new JSONModel();
-      oTextsModel.loadData("model/mockData/texts.json");
-      this.getView().setModel(oTextsModel, "texts");
-
-      // Load Address Data for the Address Tab
-      var oAddressModel = new JSONModel();
-      oAddressModel.loadData("model/mockData/address.json");
-      this.getView().setModel(oAddressModel, "address");
-
-      // Load Communication Data for the Communication Tab
-      var oCommunicationModel = new JSONModel();
-      oCommunicationModel.loadData("model/mockData/communication.json");
-      this.getView().setModel(oCommunicationModel, "communication");
-
-      // Load Partners Data for the Partners Tab
-      var oPartnersModel = new JSONModel();
-      oPartnersModel.loadData("model/mockData/partners.json");
-      this.getView().setModel(oPartnersModel, "partners");
-
-      // Load Additional Data for the Additional Data Tab
-      var oAdditionalDataModel = new JSONModel();
-      oAdditionalDataModel.loadData("model/mockData/additionalData.json");
-      this.getView().setModel(oAdditionalDataModel, "additionalData");
-
-      // Load Status Data for the Status Tab
-      var oStatusModel = new JSONModel();
-      oStatusModel.loadData("model/mockData/status.json");
-      this.getView().setModel(oStatusModel, "status");
-      
-      // Load Material Data for the Material Data Tab in Item Details
-      var oMaterialDataModel = new JSONModel();
-      oMaterialDataModel.loadData("model/mockData/materialData.json");
-      this.getView().setModel(oMaterialDataModel, "materialData");
-
-      // Load Quantities/Weights Data for the Quantities/Weights Tab in Item Details
-      var oQuantitiesWeightsModel = new JSONModel();
-      oQuantitiesWeightsModel.loadData("model/mockData/quantitiesWeights.json");
-      this.getView().setModel(oQuantitiesWeightsModel, "quantitiesWeights");
-
-      // Load Delivery Schedule Data for the Delivery Schedule Tab in Item Details
-      var oDeliveryScheduleModel = new JSONModel();
-      oDeliveryScheduleModel.loadData("model/mockData/deliverySchedule.json");
-      this.getView().setModel(oDeliveryScheduleModel, "deliverySchedule");
-
-      // Load Delivery Data for the Delivery Tab in Item Details
-      var oDeliveryModel = new JSONModel();
-      oDeliveryModel.loadData("model/mockData/delivery.json");
-      this.getView().setModel(oDeliveryModel, "delivery");
-
-      // Load Item Conditions Data for the Conditions Tab in Item Details
-       var oItemConditionsModel = new JSONModel();
-       oItemConditionsModel.loadData("model/mockData/itemConditions.json");
-       this.getView().setModel(oItemConditionsModel, "itemConditions");
-
-       // Load Purchase Order History Data for the Purchase Order History Tab in Item Details
-       var oPurchaseOrderHistoryModel = new JSONModel();
-       oPurchaseOrderHistoryModel.loadData("model/mockData/purchaseOrderHistory.json");
-       this.getView().setModel(oPurchaseOrderHistoryModel, "purchaseOrderHistory");
-
-       // Load Item Texts Data for the Texts Tab in Item Details
-       var oItemTextsModel = new JSONModel();
-       oItemTextsModel.loadData("model/mockData/itemTexts.json");
-       this.getView().setModel(oItemTextsModel, "itemTexts");
-
-       // Load Delivery Address Data for the Delivery Address Tab in Item Details
-       var oDeliveryAddressModel = new JSONModel();
-       oDeliveryAddressModel.loadData("model/mockData/deliveryAddress.json");
-       this.getView().setModel(oDeliveryAddressModel, "deliveryAddress");
-
-       // Load Confirmations Data for the Confirmations Tab in Item Details
-       var oConfirmationsModel = new JSONModel();
-       oConfirmationsModel.loadData("model/mockData/confirmations.json");
-       this.getView().setModel(oConfirmationsModel, "confirmations");
-
-
-      // 5. Initialize Message Model for MessageArea/MessagePopover
-      var oMessageModel = new JSONModel({
-        messages: [
-          {
-            type: MessageType.Success,
-            title: "System Information",
-            description: "Application converted successfully, Use AI optimize for better result",
-            subtitle: "Conversion complete",
-            counter: 1
-          }
-        ]
-      });
-      this.getView().setModel(oMessageModel, "messages");
 
       // Log initialization complete
       console.log("PurchaseOrderView controller initialized and mock data loaded.");
@@ -422,6 +328,21 @@ sap.ui.define([
      */
     onActionShowTaxes: function () {
       MessageBox.information("Show Taxes button pressed.");
+    },
+
+        /**
+     * Event handler for the "Back" button press.
+     * @public
+     */
+    onActionBack: function () {
+      MessageBox.information("Back button pressed.");
+    },
+        /**
+     * Event handler for the "Settings" button press.
+     * @public
+     */
+    onActionSettings: function () {
+      MessageBox.information("Settings button pressed.");
     },
 
     /**

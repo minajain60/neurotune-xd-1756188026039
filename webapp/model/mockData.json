@@ -1,0 +1,172 @@
+{
+  "DeliveryInvoice": [
+    {
+      "Item": "Item 1",
+      "Description": "Description 1"
+    },
+    {
+      "Item": "Item 2",
+      "Description": "Description 2"
+    }
+  ],
+  "Conditions": [
+    {
+      "ConditionName": "Condition 1",
+      "ConditionValue": "Value 1"
+    },
+    {
+      "ConditionName": "Condition 2",
+      "ConditionValue": "Value 2"
+    }
+  ],
+  "Texts": [
+    {
+      "TextName": "Text 1",
+      "TextValue": "Value 1"
+    },
+    {
+      "TextName": "Text 2",
+      "TextValue": "Value 2"
+    }
+  ],
+  "Address": [
+    {
+      "AddressType": "Type 1",
+      "AddressValue": "Value 1"
+    },
+    {
+      "AddressType": "Type 2",
+      "AddressValue": "Value 2"
+    }
+  ],
+  "Communication": [
+    {
+      "CommType": "Type 1",
+      "CommValue": "Value 1"
+    },
+    {
+      "CommType": "Type 2",
+      "CommValue": "Value 2"
+    }
+  ],
+  "Partners": [
+    {
+      "PartnerName": "Partner 1",
+      "PartnerRole": "Role 1"
+    },
+    {
+      "PartnerName": "Partner 2",
+      "PartnerRole": "Role 2"
+    }
+  ],
+  "AdditionalData": [
+    {
+      "DataName": "Data 1",
+      "DataValue": "Value 1"
+    },
+    {
+      "DataName": "Data 2",
+      "DataValue": "Value 2"
+    }
+  ],
+  "Status": [
+    {
+      "StatusType": "Type 1",
+      "StatusValue": "Value 1"
+    },
+    {
+      "StatusType": "Type 2",
+      "StatusValue": "Value 2"
+    }
+  ],
+  "MaterialData": [
+    {
+      "MaterialName": "Material 1",
+      "MaterialDescription": "Description 1"
+    },
+    {
+      "MaterialName": "Material 2",
+      "MaterialDescription": "Description 2"
+    }
+  ],
+  "QuantitiesWeights": [
+    {
+      "Quantity": "10",
+      "Weight": "20 kg"
+    },
+    {
+      "Quantity": "30",
+      "Weight": "40 kg"
+    }
+  ],
+  "DeliverySchedule": [
+    {
+      "ScheduleDate": "2024-01-01",
+      "ScheduleQuantity": "10"
+    },
+    {
+      "ScheduleDate": "2024-01-02",
+      "ScheduleQuantity": "20"
+    }
+  ],
+  "Delivery": [
+    {
+      "DeliveryType": "Type 1",
+      "DeliveryStatus": "Status 1"
+    },
+    {
+      "DeliveryType": "Type 2",
+      "DeliveryStatus": "Status 2"
+    }
+  ],
+  "ItemConditions": [
+    {
+      "ConditionType": "Condition 1",
+      "ConditionValue": "Value 1"
+    },
+    {
+      "ConditionType": "Condition 2",
+      "ConditionValue": "Value 2"
+    }
+  ],
+  "PurchaseOrderHistory": [
+    {
+      "HistoryEvent": "Event 1",
+      "HistoryDate": "2024-01-01"
+    },
+    {
+      "HistoryEvent": "Event 2",
+      "HistoryDate": "2024-01-02"
+    }
+  ],
+  "ItemTexts": [
+    {
+      "TextType": "Type 1",
+      "TextContent": "Content 1"
+    },
+    {
+      "TextType": "Type 2",
+      "TextContent": "Content 2"
+    }
+  ],
+  "DeliveryAddress": [
+    {
+      "AddressLine1": "Line 1",
+      "AddressCity": "City 1"
+    },
+    {
+      "AddressLine1": "Line 2",
+      "AddressCity": "City 2"
+    }
+  ],
+  "Confirmations": [
+    {
+      "ConfirmationType": "Type 1",
+      "ConfirmationDate": "2024-01-01"
+    },
+    {
+      "ConfirmationType": "Type 2",
+      "ConfirmationDate": "2024-01-02"
+    }
+  ]
+}
