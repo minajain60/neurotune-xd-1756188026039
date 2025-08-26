@@ -12,44 +12,20 @@
     enableScrolling="true">
     <content>
       <!-- General Information Section -->
-      <layout:HorizontalLayout>
+      <layout:Grid containerQuery="true" defaultSpan="XL3 L3 M6 S12">
         <layout:content>
-          <form:SimpleForm
-            editable="false"
-            layout="ResponsiveGridLayout"
-            title="General Information"
-            labelSpanXL="3"
-            labelSpanL="3"
-            labelSpanM="3"
-            labelSpanS="12"
-            adjustLabelSpan="false"
-            emptySpanXL="4"
-            emptySpanL="4"
-            emptySpanM="4"
-            emptySpanS="0"
-            columnsXL="1"
-            columnsL="1"
-            columnsM="1"
-            singleContainerFullSize="false">
-            <form:content>
-              <Label text="Vendor"/>
-              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/VendorName}" editable="false"/>
-
-              <Label text="Doc. date"/>
-              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/DocumentDate}" editable="false"/>
-
-              <Label text="Purchasing Org."/>
-              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/PurchasingOrgID}" editable="true"/>
-
-              <Label text="Purch. Group"/>
-              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/PurchasingGroupID}" editable="true"/>
-
-              <Label text="Company Code"/>
-              <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/CompanyCodeID}" editable="true"/>
-            </form:content>
-          </form:SimpleForm>
+          <Label text="Vendor"/>
+          <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/VendorName}" editable="false"/>
+          <Label text="Doc. date"/>
+          <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/DocumentDate}" editable="false"/>
+          <Label text="Purchasing Org."/>
+          <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/PurchasingOrgID}" editable="true"/>
+          <Label text="Purch. Group"/>
+          <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/PurchasingGroupID}" editable="true"/>
+          <Label text="Company Code"/>
+          <Input value="{purchaseOrderHeader>/PurchaseOrderHeader/CompanyCodeID}" editable="true"/>
         </layout:content>
-      </layout:HorizontalLayout>
+      </layout:Grid>
 
       <!-- Tab Strip -->
       <IconTabBar
@@ -61,31 +37,59 @@
           <IconTabFilter
             id="deliveryInvoiceTab"
             text="Delivery/Invoice"
-            key="DELIVERY_INVOICE"/>
+            key="DELIVERY_INVOICE">
+            <List items="{deliveryInvoice>/}">
+              <StandardListItem title="{deliveryInvoice>Item}" description="{deliveryInvoice>Description}"/>
+            </List>
+          </IconTabFilter>
           <IconTabFilter
             id="conditionsTab"
             text="Conditions"
-            key="CONDITIONS"/>
+            key="CONDITIONS">
+            <List items="{conditions>/}">
+              <StandardListItem title="{conditions>ConditionName}" description="{conditions>ConditionValue}"/>
+            </List>
+          </IconTabFilter>
           <IconTabFilter
             id="textsTab"
             text="Texts"
-            key="TEXTS"/>
+            key="TEXTS">
+            <List items="{texts>/}">
+              <StandardListItem title="{texts>TextName}" description="{texts>TextValue}"/>
+            </List>
+          </IconTabFilter>
           <IconTabFilter
             id="addressTab"
             text="Address"
-            key="ADDRESS"/>
+            key="ADDRESS">
+            <List items="{address>/}">
+              <StandardListItem title="{address>AddressType}" description="{address>AddressValue}"/>
+            </List>
+          </IconTabFilter>
           <IconTabFilter
             id="communicationTab"
             text="Communication"
-            key="COMMUNICATION"/>
+            key="COMMUNICATION">
+            <List items="{communication>/}">
+              <StandardListItem title="{communication>CommType}" description="{communication>CommValue}"/>
+            </List>
+          </IconTabFilter>
           <IconTabFilter
             id="partnersTab"
             text="Partners"
-            key="PARTNERS"/>
+            key="PARTNERS">
+            <List items="{partners>/}">
+              <StandardListItem title="{partners>PartnerName}" description="{partners>PartnerRole}"/>
+            </List>
+          </IconTabFilter>
           <IconTabFilter
             id="additionalDataTab"
             text="Additional Data"
-            key="ADDITIONAL_DATA"/>
+            key="ADDITIONAL_DATA">
+            <List items="{additionalData>/}">
+              <StandardListItem title="{additionalData>DataName}" description="{additionalData>DataValue}"/>
+            </List>
+          </IconTabFilter>
           <IconTabFilter
             id="orgDataTab"
             text="Org. Data"
@@ -130,14 +134,18 @@
           <IconTabFilter
             id="statusTab"
             text="Status"
-            key="STATUS"/>
+            key="STATUS">
+            <List items="{status>/}">
+              <StandardListItem title="{status>StatusType}" description="{status>StatusValue}"/>
+            </List>
+          </IconTabFilter>
         </items>
       </IconTabBar>
 
       <!-- Line Item Table -->
       <Table
         id="poItemTable"
-        items="{purchaseOrderItems>/PurchaseOrderItems}"
+        items="{purchaseOrderItems>/}"
         width="auto"
         growing="true"
         growingThreshold="20">
@@ -222,19 +230,35 @@
               <IconTabFilter
                 id="materialDataTab"
                 text="Material Data"
-                key="MATERIAL_DATA"/>
+                key="MATERIAL_DATA">
+                  <List items="{materialData>/}">
+                    <StandardListItem title="{materialData>MaterialName}" description="{materialData>MaterialDescription}"/>
+                  </List>
+              </IconTabFilter>
               <IconTabFilter
                 id="quantitiesWeightsTab"
                 text="Quantities/Weights"
-                key="QUANTITIES_WEIGHTS"/>
+                key="QUANTITIES_WEIGHTS">
+                <List items="{quantitiesWeights>/}">
+                  <StandardListItem title="{quantitiesWeights>Quantity}" description="{quantitiesWeights>Weight}"/>
+                </List>
+              </IconTabFilter>
               <IconTabFilter
                 id="deliveryScheduleTab"
                 text="Delivery Schedule"
-                key="DELIVERY_SCHEDULE"/>
+                key="DELIVERY_SCHEDULE">
+                  <List items="{deliverySchedule>/}">
+                    <StandardListItem title="{deliverySchedule>ScheduleDate}" description="{deliverySchedule>ScheduleQuantity}"/>
+                  </List>
+              </IconTabFilter>
               <IconTabFilter
                 id="deliveryTab"
                 text="Delivery"
-                key="DELIVERY"/>
+                key="DELIVERY">
+                <List items="{delivery>/}">
+                  <StandardListItem title="{delivery>DeliveryType}" description="{delivery>DeliveryStatus}"/>
+                </List>
+              </IconTabFilter>
               <IconTabFilter
                 id="invoiceTab"
                 text="Invoice"
@@ -273,23 +297,43 @@
               <IconTabFilter
                 id="itemConditionsTab"
                 text="Conditions"
-                key="ITEM_CONDITIONS"/>
+                key="ITEM_CONDITIONS">
+                 <List items="{itemConditions>/}">
+                    <StandardListItem title="{itemConditions>ConditionType}" description="{itemConditions>ConditionValue}"/>
+                 </List>
+              </IconTabFilter>
               <IconTabFilter
                 id="purchaseOrderHistoryTab"
                 text="Purchase Order History"
-                key="PO_HISTORY"/>
+                key="PO_HISTORY">
+                 <List items="{purchaseOrderHistory>/}">
+                    <StandardListItem title="{purchaseOrderHistory>HistoryEvent}" description="{purchaseOrderHistory>HistoryDate}"/>
+                 </List>
+              </IconTabFilter>
               <IconTabFilter
                 id="itemTextsTab"
                 text="Texts"
-                key="ITEM_TEXTS"/>
+                key="ITEM_TEXTS">
+                 <List items="{itemTexts>/}">
+                    <StandardListItem title="{itemTexts>TextType}" description="{itemTexts>TextContent}"/>
+                 </List>
+              </IconTabFilter>
               <IconTabFilter
                 id="deliveryAddressTab"
                 text="Delivery Address"
-                key="DELIVERY_ADDRESS"/>
+                key="DELIVERY_ADDRESS">
+                  <List items="{deliveryAddress>/}">
+                    <StandardListItem title="{deliveryAddress>AddressLine1}" description="{deliveryAddress>AddressCity}"/>
+                 </List>
+              </IconTabFilter>
               <IconTabFilter
                 id="confirmationsTab"
                 text="Confirmations"
-                key="CONFIRMATIONS"/>
+                key="CONFIRMATIONS">
+                 <List items="{confirmations>/}">
+                    <StandardListItem title="{confirmations>ConfirmationType}" description="{confirmations>ConfirmationDate}"/>
+                 </List>
+              </IconTabFilter>
             </items>
           </IconTabBar>
         </content>
