@@ -6,8 +6,12 @@ sap.ui.define([
   "sap/m/MessagePopover",
   "sap/m/MessageItem",
   "sap/ui/core/library",
-  "sap/ui/core/UIComponent"
-], function (Controller, JSONModel, MessageToast, MessageBox, MessagePopover, MessageItem, coreLibrary, UIComponent) {
+  "sap/ui/core/UIComponent",
+  "sap/ui/model/Filter",
+  "sap/ui/model/FilterOperator",
+  "sap/ui/core/util/Export",
+  "sap/ui/core/util/ExportTypeCSV"
+], function (Controller, JSONModel, MessageToast, MessageBox, MessagePopover, MessageItem, coreLibrary, UIComponent, Filter, FilterOperator, Export, ExportTypeCSV) {
   "use strict";
 
   // Shortcut for sap.ui.core.MessageType
@@ -357,6 +361,155 @@ sap.ui.define([
       }
 
       this._messagePopover.toggle(oEvent.getSource());
+    },
+
+    /**
+     * Event handler for Export to CSV button press.
+     */
+    onExportToCSV: function () {
+      var oTable = this.byId("poItemTable");
+      var aData = oTable.getModel("purchaseOrderItems").getProperty("/PurchaseOrderItems"); // Ensure correct model name and path
+      var sCsvContent = this._convertToCSV(aData);
+      var oBlob = new Blob([sCsvContent], { type: 'text/csv' });
+      var sUrl = URL.createObjectURL(oBlob);
+      var oLink = document.createElement('a');
+      oLink.href = sUrl;
+      oLink.download = 'purchase_order_items.csv';
+      oLink.click();
+      URL.revokeObjectURL(sUrl);
+    },
+
+    /**
+     * Converts JSON data to CSV format.
+     * @param {Array} aData The JSON data array.
+     * @returns {string} The CSV content.
+     * @private
+     */
+    _convertToCSV: function (aData) {
+      if (!aData || aData.length === 0) {
+        return '';
+      }
+      var aHeaders = Object.keys(aData[0]);
+      var sCsv = aHeaders.join(',') + '\n';
+      aData.forEach(function (row) {
+        var aValues = aHeaders.map(function (header) {
+          return '"' + (row[header] || '').toString().replace(/"/g, '""') + '"';
+        });
+        sCsv += aValues.join(',') + '\n';
+      });
+      return sCsv;
+    },
+
+    /**
+     * Event handler for Export to Excel button press.
+     */
+    onExportToExcel: function () {
+      var oTable = this.byId("poItemTable");
+      var oExport = new Export({
+        exportType: new ExportTypeCSV({
+          fileExtension: 'xlsx',
+          mimeType: 'application/vnd.ms-excel'
+        }),
+        models: oTable.getModel("purchaseOrderItems"),  // Ensure correct model name
+        rows: {
+          path: "/PurchaseOrderItems"  // Ensure correct model path
+        },
+        columns: this._getExportColumns()
+      });
+      oExport.saveFile("purchase_order_items").then(function () {
+        MessageToast.show("Export completed successfully");
+      });
+    },
+
+    /**
+     * Defines the columns for the Excel export.
+     * @returns {Array} An array of column definitions.
+     * @private
+     */
+    _getExportColumns: function () {
+      return [
+        {
+          name: "Item Number",  // More descriptive name
+          template: {
+            content: "{ItemNumber}"
+          }
+        },
+        {
+          name: "Material Number",
+          template: {
+            content: "{MaterialNumber}"
+          }
+        },
+        {
+          name: "Short Text",
+          template: {
+            content: "{ShortText}"
+          }
+        },
+        {
+          name: "PO Quantity",
+          template: {
+            content: "{POQuantity}"
+          }
+        },
+        {
+          name: "Delivery Date",
+          template: {
+            content: "{DeliveryDate}"
+          }
+        },
+        {
+          name: "Net Price",
+          template: {
+            content: "{NetPrice}"
+          }
+        },
+        {
+          name: "Currency",
+          template: {
+            content: "{Currency}"
+          }
+        }
+      ];
+    },
+
+    /**
+     * Event handler for the table search.
+     * @param {sap.ui.base.Event} oEvent The search event.
+     */
+    onSearch: function (oEvent) {
+      var sQuery = oEvent.getParameter("newValue") || oEvent.getParameter("query");
+      var oTable = this.byId("poItemTable");
+      var oBinding = oTable.getBinding("items");
+      var aFilters = [];
+
+      if (sQuery && sQuery.length > 0) {
+        var aSearchFilters = [];
+        // Search across multiple fields
+        aSearchFilters.push(new Filter("MaterialNumber", FilterOperator.Contains, sQuery));
+        aSearchFilters.push(new Filter("ShortText", FilterOperator.Contains, sQuery));
+        aSearchFilters.push(new Filter("ItemNumber", FilterOperator.Contains, sQuery));
+
+        aFilters.push(new Filter({
+          filters: aSearchFilters,
+          and: false
+        }));
+      }
+
+      oBinding.filter(aFilters);
+      this._updateSearchResultsCount(oBinding.getLength());
+    },
+
+    /**
+     * Updates the search results count in the table header.
+     * @param {int} iCount The number of search results.
+     * @private
+     */
+    _updateSearchResultsCount: function (iCount) {
+      var oTitle = this.byId("tableTitle");
+      if (oTitle) {
+        oTitle.setText("Purchase Order Items (" + iCount + ")"); // More appropriate title
+      }
     }
   });
 });
